@@ -1,0 +1,12 @@
+[
+  {
+    "description": "Wrong Password",
+    "username": "User",
+    "password": "wrongpassword"
+  },
+  {
+    "description": "Wrong Username",
+    "username": "WrongUser",
+    "password": "wrongpwd"
+  }
+]
