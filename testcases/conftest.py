@@ -7,15 +7,15 @@ from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 
 @pytest.fixture(scope="class")
-def setup(request, browser, url):
+def setup(request, sel_browser, url):
     # 1. Initialize Driver with automatic management
-    if browser == "chrome":
+    if sel_browser == "chrome":
         driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-    elif browser == "edge":
+    elif sel_browser == "edge":
         driver = webdriver.Edge(service=EdgeService(EdgeChromiumDriverManager().install()))
     else:
         # Raise an error if an unsupported browser is passed
-        raise pytest.UsageError(f"Browser '{browser}' is not supported. Use 'chrome' or 'edge'.")
+        raise pytest.UsageError(f"Browser '{sel_browser}' is not supported. Use 'chrome' or 'edge'.")
 
     # 2. Navigate and maximize
     driver.get(url)
@@ -30,14 +30,16 @@ def setup(request, browser, url):
 
 
 def pytest_addoption(parser):
-    parser.addoption("--browser", action="store", default="chrome")
+    # Renamed to --sel-browser to avoid conflict with pytest-playwright
+    parser.addoption("--sel-browser", action="store", default="chrome")
     parser.addoption("--url", default="http://www.uitestingplayground.com/")
 
 
 # Fixtures to capture the command line arguments
 @pytest.fixture(scope="class")
-def browser(request):
-    return request.config.getoption("--browser")
+def sel_browser(request):
+    # Updated to read --sel-browser
+    return request.config.getoption("--sel-browser")
 
 
 @pytest.fixture(scope="class")
